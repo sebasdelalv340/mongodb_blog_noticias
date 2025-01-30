@@ -5,19 +5,26 @@ import com.mongodb.client.model.Filters
 import org.example.com.es.connection.MongoConection
 import org.example.com.es.model.Comentario
 
-class GestorMongoComentario {
+class RepositoryComentario {
     private val collection: MongoCollection<Comentario> = MongoConection.getCollection(
         "adaprueba",
         "collComentarios",
         Comentario::class.java
     )
 
-    fun getComentByNoticia(noticia: String): List<Comentario>? {
-        val filtro = Filters.eq("noticia.titulo", noticia)
+    fun insertComentario(comentario: Comentario) {
         try {
-            val comentarios = collection.find(filtro)
-            comentarios.forEach { println(it) }
-            return comentarios.toList()
+            collection.insertOne(comentario)
+            println("Comentario registrado")
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
+
+    fun getComentarioByNoticia(noticia: String): List<Comentario>? {
+        val filtro = Filters.regex("noticia.titulo", ".*$noticia.*")
+        try {
+            return collection.find(filtro).toList()
         } catch (e: Exception) {
             e.printStackTrace()
         }

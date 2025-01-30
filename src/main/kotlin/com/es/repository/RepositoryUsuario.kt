@@ -6,25 +6,36 @@ import org.example.com.es.connection.MongoConection
 import org.example.com.es.model.Estado
 import org.example.com.es.model.Usuario
 
-class GestorMongoUsuario {
+class RepositoryUsuario {
     private val collection: MongoCollection<Usuario> = MongoConection.getCollection(
         "adaprueba",
         "collUsuarios",
         Usuario::class.java
     )
 
-    private fun userExists(username: String): Boolean {
-        val filtro = Filters.eq("nick", username)
+    fun usernameExist(username: String): Usuario? {
+        val filtro = Filters.eq("username", username)
         try {
-            return if(collection.find(filtro) != null) true else false
+            val user = collection.find(filtro)
+            return user.first()
         } catch (e: Exception) {
             println(e.message)
+            return null
         }
-        return false
+    }
+
+    fun emailExist(email: String?): Usuario? {
+        val filtro = Filters.eq("_id", email)
+        try {
+            return collection.find(filtro).first()
+        } catch (e: Exception) {
+            println(e.message)
+            return null
+        }
     }
 
     fun stateUser(username: String): Boolean {
-        val filtro = Filters.eq("nick", username)
+        val filtro = Filters.eq("username", username)
         val user = collection.find(filtro).first()
         try {
             if (user != null) {
@@ -38,15 +49,9 @@ class GestorMongoUsuario {
 
     fun insertUser(user: Usuario) {
         try {
-            if (!userExists(user.nick)) {
-                collection.insertOne(user)
-                println("Usuario insertado")
-            } else {
-                println("El usuario ya existe.")
-            }
+            collection.insertOne(user)
         } catch (e: Exception) {
             println(e.message)
         }
-
     }
 }

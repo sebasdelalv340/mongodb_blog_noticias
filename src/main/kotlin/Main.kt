@@ -1,8 +1,8 @@
 package org.example
 
-import org.example.com.es.gestores.GestorMongoComentario
-import org.example.com.es.gestores.GestorMongoNoticia
-import org.example.com.es.gestores.GestorMongoUsuario
+import org.example.com.es.gestores.RepositoryComentario
+import org.example.com.es.gestores.RepositoryNoticia
+import org.example.com.es.gestores.RepositoryUsuario
 import org.example.com.es.model.Direccion
 import org.example.com.es.model.Estado
 import org.example.com.es.model.Noticia
@@ -11,9 +11,9 @@ import java.time.Instant
 import java.util.*
 
 fun main() {
-    val gestorMongoNoticia = GestorMongoNoticia()
-    val gestorMongoUsuario = GestorMongoUsuario()
-    val gestorMongoComentario = GestorMongoComentario()
+    val repositoryNoticia = RepositoryNoticia()
+    val repositoryUsuario = RepositoryUsuario()
+    val repositoryComentario = RepositoryComentario()
 
     val direccion = Direccion("alamo", "24", "12", "29003","Mojacar")
     val usuario = Usuario("maria@gmail.com", "Maria", "mar14", Estado.ACTIVO, direccion, listOf("965123578", "687459258"))
@@ -23,6 +23,6 @@ fun main() {
     val user2 = Usuario("antonio@gmail.com", "Antonio", "mar14", Estado.ACTIVO, direccion, listOf("958746532", "722589634"))
 
     //gestorMongoNoticia.insertNoticia(noticia)
-    gestorMongoUsuario.insertUser(user2)
+    repositoryUsuario.insertUser(user2)
 
 }

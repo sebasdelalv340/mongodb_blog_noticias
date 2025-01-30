@@ -6,7 +6,7 @@ import com.mongodb.client.model.Sorts
 import org.example.com.es.connection.MongoConection
 import org.example.com.es.model.Noticia
 
-class GestorMongoNoticia() {
+class RepositoryNoticia() {
     private val collection: MongoCollection<Noticia> = MongoConection.getCollection(
         "adaprueba",
         "collNoticias",
@@ -22,10 +22,9 @@ class GestorMongoNoticia() {
         }
     }
 
-    fun getNoticiaUser(username: String): List<Noticia>? {
+    fun getNoticiaByNick(username: String): List<Noticia>? {
         val filtro = Filters.eq("autor.nick", username)
         try {
-            collection.find(filtro).forEach { println(it) }
             return collection.find(filtro).toList()
         } catch (e: Exception) {
             println(e.message)
@@ -36,7 +35,7 @@ class GestorMongoNoticia() {
     fun getNoticiaByTag(tag: String): List<Noticia>? {
         val filtro = Filters.eq("tag", tag)
         try {
-            collection.find(filtro).forEach { println(it) }
+            return collection.find(filtro).toList()
         } catch (e: Exception) {
             println(e.message)
         }
@@ -45,12 +44,10 @@ class GestorMongoNoticia() {
 
     fun lastNoticias(): List<Noticia>? {
         try {
-            val noticias = collection.find()
+            return collection.find()
                 .sort(Sorts.descending("fecha_publicacion"))
                 .limit(10)
                 .toList()
-            noticias.forEach { println(it) }
-            return noticias
         } catch (e: Exception) {
             println(e.message)
         }
