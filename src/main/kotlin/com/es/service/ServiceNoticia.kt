@@ -36,4 +36,13 @@ class ServiceNoticia {
             return null
         }
     }
+
+    fun getNoticiaByTitulo(titulo: String): Noticia? {
+        if (repositoryNoticia.getNoticiaByTitulo(titulo) != null) {
+            return repositoryNoticia.getNoticiaByTitulo(titulo)
+        } else {
+            println("No se han encontrado noticias")
+            return null
+        }
+    }
 }

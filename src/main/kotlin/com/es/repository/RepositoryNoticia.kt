@@ -23,7 +23,7 @@ class RepositoryNoticia() {
     }
 
     fun getNoticiaByNick(username: String): List<Noticia>? {
-        val filtro = Filters.eq("autor.nick", username)
+        val filtro = Filters.eq("autor", username)
         try {
             return collection.find(filtro).toList()
         } catch (e: Exception) {
@@ -33,7 +33,7 @@ class RepositoryNoticia() {
     }
 
     fun getNoticiaByTag(tag: String): List<Noticia>? {
-        val filtro = Filters.eq("tag", tag)
+        val filtro = Filters.regex("tag", ".*$tag.*")
         try {
             return collection.find(filtro).toList()
         } catch (e: Exception) {
@@ -48,6 +48,16 @@ class RepositoryNoticia() {
                 .sort(Sorts.descending("fecha_publicacion"))
                 .limit(10)
                 .toList()
+        } catch (e: Exception) {
+            println(e.message)
+        }
+        return null
+    }
+
+    fun getNoticiaByTitulo(title: String): Noticia? {
+        val filtro = Filters.eq("titulo", title)
+        try {
+            return collection.find(filtro).first()
         } catch (e: Exception) {
             println(e.message)
         }

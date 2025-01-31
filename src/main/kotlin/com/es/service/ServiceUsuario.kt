@@ -7,6 +7,10 @@ import org.example.com.es.usecase.validarUsernameEmail
 class ServiceUsuario {
     val repositoryUsuario = RepositoryUsuario()
 
+    fun usernameExist(username: String): Boolean {
+        return repositoryUsuario.usernameExist(username) != null
+    }
+
     private fun existUser(user: Usuario): Boolean {
         val username = repositoryUsuario.usernameExist(user.username)
         val email = repositoryUsuario.emailExist(user._id)
@@ -23,7 +27,7 @@ class ServiceUsuario {
         }
     }
 
-    fun getStateUser(user: Usuario): Boolean {
-        return repositoryUsuario.stateUser(user.username)
+    fun getStateUser(user: String): Boolean {
+        return repositoryUsuario.stateUser(user)
     }
 }
