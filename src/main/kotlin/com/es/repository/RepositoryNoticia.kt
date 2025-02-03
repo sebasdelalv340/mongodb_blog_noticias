@@ -28,8 +28,8 @@ class RepositoryNoticia() {
             return collection.find(filtro).toList()
         } catch (e: Exception) {
             println(e.message)
+            return null
         }
-        return null
     }
 
     fun getNoticiaByTag(tag: String): List<Noticia>? {
@@ -55,7 +55,7 @@ class RepositoryNoticia() {
     }
 
     fun getNoticiaByTitulo(title: String): Noticia? {
-        val filtro = Filters.eq("titulo", title)
+        val filtro = Filters.regex("titulo", ".*$title.*")
         try {
             return collection.find(filtro).first()
         } catch (e: Exception) {

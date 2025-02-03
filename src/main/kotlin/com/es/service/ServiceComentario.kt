@@ -11,11 +11,11 @@ class ServiceComentario {
     }
 
     fun getComentarioByNoticia(noticia: String): List<Comentario>?{
-        if (repositoryComentario.getComentarioByNoticia(noticia) != null) {
-            return repositoryComentario.getComentarioByNoticia(noticia)
-        } else {
+        if (repositoryComentario.getComentarioByNoticia(noticia).isNullOrEmpty()) {
             println("No se encontraron comentarios")
             return null
+        } else {
+            return repositoryComentario.getComentarioByNoticia(noticia)
         }
     }
 }

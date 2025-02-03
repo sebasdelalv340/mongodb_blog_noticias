@@ -1,5 +1,5 @@
 package org.example.com.es.model
 
-enum class Estado {
-    ACTIVO, INACTIVO
+enum class Estado(val estado: String) {
+    ACTIVO("ACTIVO"), INACTIVO("INACTIVO")
 }

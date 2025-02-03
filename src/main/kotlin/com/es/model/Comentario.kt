@@ -4,7 +4,7 @@ import java.time.Instant
 import java.util.*
 
 data class Comentario(
-    val nick: String,
+    val username: String,
     val noticia: Noticia?,
     val texto: String,
     val fecha_pub: Date? = Date.from(Instant.now())

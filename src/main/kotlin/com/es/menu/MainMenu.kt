@@ -1,12 +1,11 @@
 package org.example.com.es.menu
 
-import org.example.com.es.model.Comentario
-import org.example.com.es.model.Direccion
-import org.example.com.es.model.Noticia
-import org.example.com.es.model.Usuario
+import org.example.com.es.model.*
 import org.example.com.es.service.ServiceComentario
 import org.example.com.es.service.ServiceNoticia
 import org.example.com.es.service.ServiceUsuario
+import org.example.com.es.usecase.validarEmail
+import org.example.com.es.usecase.validarUsername
 
 class MainMenu {
     private val serviceUsuario = ServiceUsuario()
@@ -52,17 +51,29 @@ class MainMenu {
     }
 
     private fun pedirUsuario(): Usuario {
-        println("Introduce el email:")
-        val email = readln()
+        var emailCorrecto = true
+        var email = ""
+        do {
+            println("Introduce el email:")
+            email = readln()
+            if(!validarEmail(email)) emailCorrecto = false
+        } while (emailCorrecto)
+
         println("Introduce el nombre completo:")
         val nombre = readln()
-        println("Introduce el nombre de usuario:")
-        val username = readln().lowercase()
+
+        var usernameCorrecto= true
+        var username = ""
+        do {
+            println("Introduce el nombre de usuario:")
+            username = readln().lowercase()
+            if(!validarUsername(username)) usernameCorrecto = false
+        } while (usernameCorrecto)
 
         val direccion = pedirDireccion()
         val listaTelefono = pedirTelefono()
 
-        val user = Usuario(email, nombre, username, null, direccion, listaTelefono)
+        val user = Usuario(email, nombre, username, Estado.ACTIVO, direccion, listaTelefono)
         return user
     }
 
@@ -199,6 +210,7 @@ class MainMenu {
                 }
             }
         } while (repetirUsername)
+        println("Buscar la noticia a comentar")
         val noticia = getNoticiaByTitulo()
         println("Introduce el comentario:")
         val texto = readln()
@@ -214,22 +226,22 @@ class MainMenu {
 
     private fun getNoticiaByTitulo(): Noticia? {
         var correcto = true
-        val noticia: Noticia?
+        var noticia: Noticia?
         do {
             println("Introduce el titulo de la noticia:")
             val titulo = readln()
             noticia = serviceNoticia.getNoticiaByTitulo(titulo)
             println(noticia)
-            println("¿ES la noticia que buscas? (S/N):")
-            val opcion = readln()
+            println("¿Es la noticia que buscas? (S/N):")
+            val opcion = readln().lowercase()
             if (opcion == "s") {
                 correcto = false
                 return noticia
             } else {
                 println("Buscamos de nuevo")
-                return null
             }
         } while (correcto)
+        return null
     }
 
     private fun getNoticiaByUsername(): List<Noticia>? {

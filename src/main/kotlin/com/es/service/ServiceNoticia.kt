@@ -11,20 +11,21 @@ class ServiceNoticia {
     }
 
     fun getNoticiaByUsername(username: String): List<Noticia>? {
-        if (repositoryNoticia.getNoticiaByNick(username) != null) {
-            return repositoryNoticia.getNoticiaByNick(username)
-        } else {
+
+        if (repositoryNoticia.getNoticiaByNick(username).isNullOrEmpty()) {
             println("No se han encontrado noticia con este nombre de usuario")
             return null
+        } else {
+            return repositoryNoticia.getNoticiaByNick(username)
         }
     }
 
     fun getNoticiaByTag(tag: String): List<Noticia>? {
-        if (repositoryNoticia.getNoticiaByTag(tag) != null) {
-            return repositoryNoticia.getNoticiaByTag(tag)
-        } else {
+        if (repositoryNoticia.getNoticiaByTag(tag).isNullOrEmpty()) {
             println("No se han encontrado noticia con este tag")
             return null
+        } else {
+            return repositoryNoticia.getNoticiaByTag(tag)
         }
     }
 

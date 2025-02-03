@@ -50,6 +50,7 @@ class RepositoryUsuario {
     fun insertUser(user: Usuario) {
         try {
             collection.insertOne(user)
+            println("Usuario registrado")
         } catch (e: Exception) {
             println(e.message)
         }
